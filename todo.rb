@@ -16,6 +16,20 @@ class Todo
   attr_accessor :text
   attr_accessor :due_date
   attr_accessor :completed
+
+  def overdue?
+    Date.today > @due_date
+  end
+
+  def due_today?
+    Date.today == @due_date
+    #TodosList.new(@todos.filter { |todo| todo.due_date == Date.today })
+  end
+
+  def due_later?
+    Date.today < @due_date
+    #TodosList.new(@todos.filter { |todo| todo.due_date == Date.today })
+  end
 end
 
 class TodosList
@@ -28,7 +42,20 @@ class TodosList
   end
 
   def overdue
-    TodosList.new(@todos.filter { |todo| todo.due_date < Date.today })
+    TodosList.new(@todos.filter { |todo| todo.overdue? })
+  end
+
+  def due_today
+    TodosList.new(@todos.filter { |todo| todo.due_today? })
+  end
+
+  def due_later
+    TodosList.new(@todos.filter { |todo| todo.due_later? })
+  end
+
+  " 
+  def overdue
+   TodosList.new(@todos.filter { |todo| todo.due_date < Date.today })
   end
 
   def due_today
@@ -38,11 +65,10 @@ class TodosList
   def due_later
     TodosList.new(@todos.filter { |todo| todo.due_date > Date.today })
   end
+"
 
   def to_displayable_list
-    todo_text = []
-    todo_text.push(@todos.map { |todo| todo.to_displayable_string })
-    todo_text.join("\n")
+    @todos.map { |todo| todo.to_displayable_string }
   end
 end
 
