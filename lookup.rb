@@ -19,7 +19,6 @@ domain = get_command_line_argument
 dns_raw = File.readlines("zone")
 
 def parse_dns(dns_string)
-  dns_string = dns_string.map(&:strip).delete_if { |string| string.length == 0 }
   dns_string = dns_string[1..-1]
   array = Array.new(5) { Array.new(3) }
   input = []
