@@ -24,7 +24,7 @@ def parse_dns(dns_string)
   input = []
   i = 0
   while i < 5
-    input = dns_string[i].strip.split(",")
+    input = dns_string[i].split(",")
     j = 0
     while j < 3
       array[i][j] = input[j].strip
@@ -32,7 +32,13 @@ def parse_dns(dns_string)
     end
     i = i + 1
   end
-  dns_record = Hash[array.map { |key, d1, d2| [d1, { :type => key, :target => d2 }] }]
+  #dns_record = Hash[array.map { |key, d1, d2| [d1, { :type => key, :target => d2 }] }]
+
+  array.each_with_object(Hash.new(0)) do |key, dns_record|
+    #dns_recor[key[1]] = { key[1] => { :type => key[0], :target => key[2] } }
+    dns_record[key[1]] = { :type => key[0], :target => key[2] }
+    #puts "dns record #{dns_record}"
+  end
 end
 
 def resolve(dns_records, lookup_chain, domain_name)
